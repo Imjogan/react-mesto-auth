@@ -1,0 +1,25 @@
+.login__auth {
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity .4s;
+}
+
+.login__auth:hover {
+  opacity: 0.6;
+}
+
+.login__sign-text {
+  margin: 15px auto 0;
+  padding: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+}

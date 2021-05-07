@@ -1,0 +1,9 @@
+.form__button_location_sign {
+  margin-top: auto;
+  color: black;
+  background-color: white;
+}
+
+.form__button:hover {
+  opacity: .85;
+}

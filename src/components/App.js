@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import '../index.css';
 import Header from './Header';
 import Main from './Main';
@@ -11,6 +12,9 @@ import AddPlacePopup from './AddPlacePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import RenderLoading from './RenderLoading';
+import ProtectedRoute from './ProtectedRoute';
+import Login from './Login';
+import Register from './Register';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -34,6 +38,7 @@ function App() {
   const [isSubmittingProfileAvatar, setIsSubmittingProfileAvatar] = useState(
     false
   );
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // загружаем данные пользователя и карточек
   useEffect(() => {
@@ -172,6 +177,10 @@ function App() {
     setSelectedCard(null);
   }
 
+  const handleLogin = (token) => {
+    console.log(`Получили токен: ${token}`)
+  }
+
   return (
     <div className="page">
       {dataLoading ? (
@@ -179,16 +188,30 @@ function App() {
       ) : (
         <CurrentUserContext.Provider value={currentUser}>
           <Header />
-          <Main
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-          />
-          <Footer />
+          <Switch>
+            <ProtectedRoute
+              path="/main"
+              loggedIn={loggedIn}
+              component={Main}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+            />
+            <Route path="/sign-in">
+              <Login handleLogin={handleLogin} />
+            </Route>
+            <Route path="/sign-up">
+              <Register />
+            </Route>
+            <Route exact path="/">
+              {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
+            </Route>
+          </Switch>
+          {loggedIn && <Footer />}
           <EditProfilePopup
             isLoading={isLoadingProfileInfo}
             onUpdateUser={handleUpdateUser}

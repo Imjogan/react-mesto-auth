@@ -4,9 +4,11 @@
   background-image: url(../../../images/logo.svg);
   background-position: center;
   background-size: cover;
-  align-self: flex-start;
+  align-self: center;
   justify-self: start;
   transition: opacity .4s;
+  margin: 0;
+  cursor: pointer;
 }
   
 .header__logo:hover {
