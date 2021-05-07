@@ -1,0 +1,22 @@
+.form__error {
+  padding: 0;
+  margin: 0;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: red;
+  opacity: 0;
+  transition: 0.3s;
+  position: absolute;
+  top: 40%;
+  left: 0;
+}
+
+.label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}

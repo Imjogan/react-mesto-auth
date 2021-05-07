@@ -1,0 +1,26 @@
+.profile__button-edit {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  border: 1px solid white;
+  display: flex;
+  grid-area: button-edit;
+  cursor: pointer;
+  background-color: transparent;
+  background-size: 10px 10px;
+  background-image: url(../../../images/pen.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  transition: opacity .4s;
+}
+
+.profile__button-edit:hover {
+  opacity: .6;
+}
+
+.profile__button-edit:active {
+  opacity: 0;
+}

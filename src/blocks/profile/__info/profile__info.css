@@ -1,0 +1,18 @@
+.profile__info {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  align-self: center;
+  grid-template-areas:
+    "profile__name button-edit"
+    "profile__status profile__status";
+  grid-gap: 16px 18px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@media screen and (max-width: 520px) {
+  .profile__info {
+    grid-gap: 14px 10px;
+  }
+}

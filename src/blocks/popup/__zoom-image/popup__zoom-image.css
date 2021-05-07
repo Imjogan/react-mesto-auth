@@ -1,0 +1,10 @@
+.popup__zoom-image {
+    margin: 0 19px;
+    color: white;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }

@@ -1,0 +1,21 @@
+.header__logo {
+  height: 33px;
+  width: 142px;
+  background-image: url(../../../images/logo.svg);
+  background-position: center;
+  background-size: cover;
+  align-self: flex-start;
+  justify-self: start;
+  transition: opacity .4s;
+}
+  
+.header__logo:hover {
+  opacity: .8;
+}
+
+@media screen and (max-width: 520px) {
+  .header__logo {
+    width: 103.74px;
+    height: 24.4px;
+  }
+}
