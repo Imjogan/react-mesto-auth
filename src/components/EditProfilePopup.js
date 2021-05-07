@@ -1,17 +1,23 @@
 import { useState, useContext, useEffect, useCallback } from 'react';
 import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { validateField } from '../utils/utils';
+
+const minUserNameInputLength = 2;
+const maxUserNameInputLength = 40;
+const minDescriptionInputLength = 2;
+const maxDescriptionInputLength = 200;
 
 const validators = {
   userName: {
     required: (value) => value === '',
-    minLength: (value) => value.length < 3,
-    maxLength: (value) => value.length > 40,
+    minLength: (value) => value.length < minUserNameInputLength,
+    maxLength: (value) => value.length > maxUserNameInputLength,
   },
   description: {
     required: (value) => value === '',
-    minLength: (value) => value.length < 3,
-    maxLength: (value) => value.length > 100,
+    minLength: (value) => value.length < minDescriptionInputLength,
+    maxLength: (value) => value.length > maxDescriptionInputLength,
   },
 };
 
@@ -22,6 +28,7 @@ function EditProfilePopup({
   isLoading,
   isSubmitting,
 }) {
+  const [isDisabledDefault, setIsDisabledDefault] = useState(true);
   const currentUser = useContext(CurrentUserContext);
 
   const [formValues, setFormValues] = useState({
@@ -49,6 +56,7 @@ function EditProfilePopup({
         description: currentUser.about,
       });
     }
+    setIsDisabledDefault(true);
   }, [isOpen, currentUser]);
 
   const handleSubmit = (evt) => {
@@ -62,6 +70,7 @@ function EditProfilePopup({
 
   const handleInputChange = useCallback(
     (evt) => {
+      setIsDisabledDefault(false);
       const { name, value } = evt.target;
       setFormValues((state) => ({ ...state, [name]: value }));
     },
@@ -72,19 +81,15 @@ function EditProfilePopup({
     function validateInputs() {
       const { userName, description } = formValues;
 
-      const userNameValidationRusult = Object.keys(validators.userName)
-        .map((errorKey) => {
-          const errorResult = validators.userName[errorKey](userName);
-          return { [errorKey]: errorResult };
-        })
-        .reduce((acc, element) => ({ ...acc, ...element }), {});
+      const userNameValidationRusult = validateField(
+        validators.userName,
+        userName
+      );
 
-      const descriptionValidationRusult = Object.keys(validators.description)
-        .map((errorKey) => {
-          const errorResult = validators.description[errorKey](description);
-          return { [errorKey]: errorResult };
-        })
-        .reduce((acc, element) => ({ ...acc, ...element }), {});
+      const descriptionValidationRusult = validateField(
+        validators.description,
+        description
+      );
 
       setErrors({
         userName: userNameValidationRusult,
@@ -99,6 +104,11 @@ function EditProfilePopup({
   const isDescriptionInvalid = Object.values(errors.description).some(Boolean);
   const isSubmitDisabled = isUserNameInvalid || isDescriptionInvalid;
 
+  const isAnyParamsUserNameValid =
+    errors.userName.required || errors.userName.minLength;
+  const isAnyParamsDescriptionValid =
+    errors.description.required || errors.description.minLength;
+
   return (
     <PopupWithForm
       name="profile-edit"
@@ -109,72 +119,63 @@ function EditProfilePopup({
       onSubmit={handleSubmit}
       isValidity={isSubmitDisabled}
       isSubmitting={isSubmitting}
+      isDisabledDefault={isDisabledDefault}
     >
       <fieldset className="form__fields">
         <label className="label">
           <input
             type="text"
             className={`form__input ${
-              (errors.userName.required ||
-                errors.userName.maxLength ||
-                errors.userName.minLength) &&
-              'form__input_type_error'
+              isUserNameInvalid && 'form__input_type_error'
             }`}
             name="userName"
             required
-            minLength="2"
-            maxLength="40"
+            minLength={minUserNameInputLength}
+            maxLength={maxUserNameInputLength}
             id="profile-name-input"
             value={userName}
             onChange={handleInputChange}
           />
           <span
             className={`form__error ${
-              (errors.userName.required ||
-                errors.userName.maxLength ||
-                errors.userName.minLength) &&
-              'form__error_visible'
+              isUserNameInvalid && 'form__error_visible'
             }`}
           >
-            {errors.userName.required || errors.userName.minLength
+            {isAnyParamsUserNameValid
               ? errors.userName.required
                 ? 'Поле обязательно для заполнения'
-                : 'Введите фразу не короче 2 символов'
+                : `Введите фразу не короче ${minUserNameInputLength} символов`
               : ''}
-            {errors.userName.maxLength && 'Превышел лимит в 40 символов'}
+            {errors.userName.maxLength &&
+              `Превышел лимит в ${maxUserNameInputLength} символов`}
           </span>
         </label>
         <label className="label">
           <input
             type="text"
             className={`form__input ${
-              (errors.description.required ||
-                errors.description.maxLength ||
-                errors.description.minLength) &&
-              'form__input_type_error'
+              isDescriptionInvalid && 'form__input_type_error'
             }`}
             name="description"
             required
-            minLength="2"
-            maxLength="100"
+            minLength={minDescriptionInputLength}
+            maxLength={maxDescriptionInputLength}
             id="profile-status-input"
             value={description}
             onChange={handleInputChange}
           />
           <span
             className={`form__error ${
-              (errors.description.required ||
-                errors.description.maxLength ||
-                errors.description.minLength) &&
-              'form__error_visible'
+              isDescriptionInvalid && 'form__error_visible'
             }`}
           >
-            {errors.description.required || errors.description.minLength
+            {isAnyParamsDescriptionValid
               ? errors.description.required
                 ? 'Поле обязательно для заполнения'
-                : 'Введите фразу не короче 2 символов'
+                : `Введите фразу не короче ${minDescriptionInputLength} символов`
               : ''}
-            {errors.description.maxLength && 'Превышел лимит в 100 символов'}
+            {errors.description.maxLength &&
+              `Превышел лимит в ${maxDescriptionInputLength} символов`}
           </span>
         </label>
       </fieldset>

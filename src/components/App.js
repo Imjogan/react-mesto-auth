@@ -28,8 +28,12 @@ function App() {
   const [currentDeletionCard, setCurrentDeletionCard] = useState(null);
   const [isSubmittingProfileInfo, setIsSubmittingProfileInfo] = useState(false);
   const [isSubmittingCardAdd, setIsSubmittingCardAdd] = useState(false);
-  const [isSubmittingDeleteConfirm, setIsSubmittingDeleteConfirm] = useState(false);
-  const [isSubmittingProfileAvatar, setIsSubmittingProfileAvatar] = useState(false);
+  const [isSubmittingDeleteConfirm, setIsSubmittingDeleteConfirm] = useState(
+    false
+  );
+  const [isSubmittingProfileAvatar, setIsSubmittingProfileAvatar] = useState(
+    false
+  );
 
   // загружаем данные пользователя и карточек
   useEffect(() => {
@@ -54,8 +58,10 @@ function App() {
     api
       .toggleCardLike(card._id, isLiked)
       .then((newCard) => {
-        setCards((state) =>
-          state.map((oldCard) => (oldCard._id === card._id ? newCard : oldCard))
+        setCards((prevCards) =>
+          prevCards.map((prevCard) =>
+            prevCard._id === card._id ? newCard : prevCard
+          )
         );
       })
       .catch((error) => {

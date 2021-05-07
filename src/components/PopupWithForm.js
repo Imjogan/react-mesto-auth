@@ -8,9 +8,9 @@ function PopupWithForm({
   children,
   isValidity,
   isSubmitting,
+  isDisabledDefault,
 }) {
-  const isAnyParamsOnDisabled = isValidity || isSubmitting;
-
+  const isDisabled = isDisabledDefault || isValidity || isSubmitting;
   return (
     <section className={`popup ${isOpen && 'popup_opened'}`}>
       <div className="popup__container">
@@ -28,11 +28,9 @@ function PopupWithForm({
         >
           {children}
           <button
-            disabled={isAnyParamsOnDisabled}
+            disabled={isDisabled}
             type="submit"
-            className={`form__button ${
-              isAnyParamsOnDisabled && 'form__button_disabled'
-            }`}
+            className={`form__button ${isDisabled && 'form__button_disabled'}`}
           >
             {submitButtonText}
           </button>
