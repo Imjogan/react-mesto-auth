@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { validateField } from '../utils/utils';
 import * as auth from '../utils/auth';
+import { useHistory } from 'react-router-dom';
 
 const minInputLength = 2;
 
@@ -19,6 +20,8 @@ const validators = {
 };
 
 function Login({ handleLogin }) {
+  let history = useHistory();
+
   const [isDisabledDefault, setIsDisabledDefault] = useState(true);
   const [isSubmittingLogin, setIsSubmittingLogin] = useState(false);
 
@@ -54,9 +57,9 @@ function Login({ handleLogin }) {
       .authorize(formValues.password, formValues.email)
       .then((data) => {
         if (data.token) {
-          setFormValues({ password: '', email: '' }, () => {
-            handleLogin(data.token);
-          });
+          localStorage.setItem('token', data.token);
+          handleLogin();
+          history.push('/main');
         }
       })
       .catch((err) => console.log(err))
@@ -179,6 +182,7 @@ function Login({ handleLogin }) {
           </button>
         </form>
       </div>
+      <div className="login__footer" />
     </section>
   );
 }

@@ -1,0 +1,12 @@
+.login__footer {
+  min-height: 112px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 425px) {
+  .login__footer {
+    min-height: 77px;
+  }
+}

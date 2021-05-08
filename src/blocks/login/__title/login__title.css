@@ -9,3 +9,9 @@
   color: #FFFFFF;
   width: 100%;
 }
+
+@media screen and (max-width: 425px) {
+  .login__title {
+    margin-bottom: 40px;
+  }
+}

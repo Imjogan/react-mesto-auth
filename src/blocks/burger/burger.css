@@ -1,0 +1,12 @@
+.burger {
+  display: none;
+  }
+  
+  @media screen and (max-width: 425px) {
+    .burger {
+      height: 30px;
+      width: 30px;
+      margin: 0;
+      display: flex;
+    }
+  }

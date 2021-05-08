@@ -1,0 +1,35 @@
+.burger__button_type_cross {
+  background-color: transparent;
+}
+.burger__button_type_cross .burger__contain {
+  transition: background 0s 0.3s;
+}
+.burger__button_type_cross .burger__contain::before,
+.burger__button_type_cross .burger__contain::after {
+  transition-duration: 0.3s, 0.3s;
+  transition-delay: 0.3s, 0s;
+}
+.burger__button_type_cross .burger__contain::before {
+  transition-property: top, transform;
+}
+.burger__button_type_cross .burger__contain::after {
+  transition-property: bottom, transform;
+}
+.burger__button_type_cross.burger__button_active {
+  background-color: transparent;
+}
+.burger__button_type_cross.burger__button_active .burger__contain {
+  background: none;
+}
+.burger__button_type_cross.burger__button_active .burger__contain::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+.burger__button_type_cross.burger__button_active .burger__contain::after {
+  bottom: 0;
+  transform: rotate(-45deg);
+}
+.burger__button_type_cross.burger__button_active .burger__contain::before,
+.burger__button_type_cross.burger__button_active .burger__contain::after {
+  transition-delay: 0s, 0.3s;
+}

@@ -14,3 +14,18 @@
   flex-direction: column;
   height: 100vh;
 }
+
+@media screen and (max-width: 425px) {
+  .page {
+    transform: translateY(-143px);
+    transition: all 0.4s ease-in-out;
+  }
+
+  .page_without-login {
+    transform: translateY(-121px);
+  }
+
+  .page_shift {
+    transform: translateY(0);
+  }
+}

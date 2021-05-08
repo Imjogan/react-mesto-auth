@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { validateField } from '../utils/utils';
 import { Link } from 'react-router-dom';
 import * as auth from '../utils/auth';
+import { useHistory } from 'react-router-dom';
 
 const minInputLength = 2;
 
@@ -20,6 +21,8 @@ const validators = {
 };
 
 function Register() {
+  let history = useHistory();
+
   const [isDisabledDefault, setIsDisabledDefault] = useState(true);
   const [isSubmittingRegister, setIsSubmittingRegister] = useState(false);
 
@@ -54,7 +57,7 @@ function Register() {
       .register(formValues.password, formValues.email)
       .then((res) => {
         if (res) {
-          console.log(res);
+          history.push('/sign-in');
         } else {
           console.log('Данный email-адрес уже зарегистрирован');
         }
@@ -63,10 +66,6 @@ function Register() {
         console.log(res);
       })
       .finally(() => {
-        setFormValues({
-          password: '',
-          email: '',
-        });
         setIsDisabledDefault(true);
         setIsSubmittingRegister(false);
       });
@@ -185,6 +184,8 @@ function Register() {
             {isSubmittingRegister ? 'Регистрация...' : 'Зарегистрироваться'}
           </button>
         </form>
+      </div>
+      <div className="login__footer">
         <p className="login__sign-text">
           Уже зарегистрированы?{' '}
           <Link to="/sign-in" className="login__auth">

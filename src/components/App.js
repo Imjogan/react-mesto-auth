@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import '../index.css';
 import Header from './Header';
 import Main from './Main';
@@ -15,8 +15,12 @@ import RenderLoading from './RenderLoading';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
+import * as auth from '../utils/auth';
+import BurgerMenu from './BurgerMenu';
 
 function App() {
+  let history = useHistory();
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -39,9 +43,10 @@ function App() {
     false
   );
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isMenuClick, setIsMenuClick] = useState(false);
 
-  // загружаем данные пользователя и карточек
   useEffect(() => {
+    handleTokenCheck();
     api
       .getInitialData()
       .then((data) => {
@@ -177,17 +182,43 @@ function App() {
     setSelectedCard(null);
   }
 
-  const handleLogin = (token) => {
-    console.log(`Получили токен: ${token}`)
+  const handleTokenCheck = () => {
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
+      auth.checkToken(token).then((res) => {
+        setLoggedIn((prevState) => ({
+          ...prevState,
+          email: res.data.email,
+        }));
+        if (res) {
+          history.push('/main');
+        }
+      });
+    }
+  };
+
+  const handleLogin = () => {
+    handleTokenCheck();
+    setLoggedIn(true);
+  };
+
+  const onSignOut = () => {
+    setLoggedIn(false);
+    setIsMenuClick(false);
+  };
+
+  const onMenuClick = () => {
+    setIsMenuClick(!isMenuClick);
   }
 
   return (
-    <div className="page">
+    <div className={`page ${isMenuClick && 'page_shift'} ${!loggedIn && 'page_without-login'}`}>
       {dataLoading ? (
         <RenderLoading />
       ) : (
         <CurrentUserContext.Provider value={currentUser}>
-          <Header />
+          <BurgerMenu isMenuClick={isMenuClick} onSignOut={onSignOut} email={loggedIn.email} />
+          <Header onMenuClick={onMenuClick} onSignOut={onSignOut} email={loggedIn.email} />
           <Switch>
             <ProtectedRoute
               path="/main"
