@@ -9,7 +9,7 @@ function Header({ email, onSignOut, onMenuClick }) {
 
   useEffect(() => {
     setIsClick(false);
-  }, [onSignOut])
+  }, [location]);
 
   const handleOutClick = () => {
     onSignOut();

@@ -1,0 +1,12 @@
+.popup__title_section_registration {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 440px) {
+  .popup__title_section_registration {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}

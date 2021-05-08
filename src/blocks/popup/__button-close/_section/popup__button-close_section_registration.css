@@ -1,0 +1,8 @@
+@media screen and (max-width: 600px) {
+  .popup__button-close_section_registration {
+    top: -60px;
+    right: 50%;
+    transform: scale(0.75);
+    transform: translate(50%, 0);
+  }
+}

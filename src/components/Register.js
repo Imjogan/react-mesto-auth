@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { validateField } from '../utils/utils';
 import { Link } from 'react-router-dom';
 import * as auth from '../utils/auth';
-import { useHistory } from 'react-router-dom';
 
 const minInputLength = 2;
 
@@ -20,9 +19,7 @@ const validators = {
   },
 };
 
-function Register() {
-  let history = useHistory();
-
+function Register({ onShowPopup, onRegistrationResolve }) {
   const [isDisabledDefault, setIsDisabledDefault] = useState(true);
   const [isSubmittingRegister, setIsSubmittingRegister] = useState(false);
 
@@ -43,11 +40,13 @@ function Register() {
   });
 
   useEffect(() => {
-    setFormValues({
-      password: '',
-      email: '',
-    });
     setIsDisabledDefault(true);
+    return () => {
+      setFormValues({
+        password: '',
+        email: '',
+      });
+    };
   }, []);
 
   const handleSubmit = (evt) => {
@@ -56,10 +55,11 @@ function Register() {
     auth
       .register(formValues.password, formValues.email)
       .then((res) => {
-        if (res) {
-          history.push('/sign-in');
+        if (!res.error) {
+          onRegistrationResolve(true);
+          onShowPopup(true);
         } else {
-          console.log('Данный email-адрес уже зарегистрирован');
+          onShowPopup(true);
         }
       })
       .catch((res) => {

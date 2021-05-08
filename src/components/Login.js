@@ -30,6 +30,16 @@ function Login({ handleLogin }) {
     email: '',
   });
 
+  useEffect(() => {
+    setIsDisabledDefault(true);
+    return () => {
+      setFormValues({
+        password: '',
+        email: '',
+      });
+    };
+  }, []);
+
   const [errors, setErrors] = useState({
     password: {
       required: true,
@@ -40,14 +50,6 @@ function Login({ handleLogin }) {
       email: true,
     },
   });
-
-  useEffect(() => {
-    setFormValues({
-      password: '',
-      email: '',
-    });
-    setIsDisabledDefault(true);
-  }, []);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();

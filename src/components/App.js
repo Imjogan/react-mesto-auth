@@ -17,10 +17,15 @@ import Login from './Login';
 import Register from './Register';
 import * as auth from '../utils/auth';
 import BurgerMenu from './BurgerMenu';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
   let history = useHistory();
 
+  const [isSuccessfulRegistration, setIsSuccessfulRegistration] = useState(
+    false
+  );
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -180,6 +185,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsConfirmPopupOpen(false);
     setSelectedCard(null);
+    setIsInfoTooltipPopupOpen(false);
   }
 
   const handleTokenCheck = () => {
@@ -209,16 +215,28 @@ function App() {
 
   const onMenuClick = () => {
     setIsMenuClick(!isMenuClick);
-  }
+  };
 
   return (
-    <div className={`page ${isMenuClick && 'page_shift'} ${!loggedIn && 'page_without-login'}`}>
+    <div
+      className={`page ${isMenuClick && 'page_shift'} ${
+        !loggedIn && 'page_without-login'
+      }`}
+    >
       {dataLoading ? (
         <RenderLoading />
       ) : (
         <CurrentUserContext.Provider value={currentUser}>
-          <BurgerMenu isMenuClick={isMenuClick} onSignOut={onSignOut} email={loggedIn.email} />
-          <Header onMenuClick={onMenuClick} onSignOut={onSignOut} email={loggedIn.email} />
+          <BurgerMenu
+            isMenuClick={isMenuClick}
+            onSignOut={onSignOut}
+            email={loggedIn.email}
+          />
+          <Header
+            onMenuClick={onMenuClick}
+            onSignOut={onSignOut}
+            email={loggedIn.email}
+          />
           <Switch>
             <ProtectedRoute
               path="/main"
@@ -236,9 +254,12 @@ function App() {
               <Login handleLogin={handleLogin} />
             </Route>
             <Route path="/sign-up">
-              <Register />
+              <Register
+                onRegistrationResolve={setIsSuccessfulRegistration}
+                onShowPopup={setIsInfoTooltipPopupOpen}
+              />
             </Route>
-            <Route exact path="/">
+            <Route path="/">
               {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
@@ -272,6 +293,12 @@ function App() {
             onUpdateAvatar={handleUpdateAvatar}
             onClose={closeAllPopups}
             isSubmitting={isSubmittingProfileAvatar}
+          />
+          <InfoTooltip
+            onClose={closeAllPopups}
+            isOpen={isInfoTooltipPopupOpen}
+            isSuccessfulRegistration={isSuccessfulRegistration}
+            onRegistrationResolve={setIsSuccessfulRegistration}
           />
         </CurrentUserContext.Provider>
       )}

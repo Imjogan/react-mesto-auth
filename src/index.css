@@ -33,7 +33,9 @@
 @import url(./blocks/footer/__copyright/footer__copyright.css);
 @import url(./blocks/popup/popup.css);
 @import url(./blocks/popup/_opened/popup_opened.css);
+@import url(./blocks/popup/__registration-image/popup__registration-image.css);
 @import url(./blocks/popup/__container/popup__container.css);
+@import url(./blocks/popup/__container/_section/popup__container_section_registration.css);
 @import url(./blocks/popup/__container/_closed/popup__container_closed.css);
 @import url(./blocks/popup/__zoom-image/popup__zoom-image.css);
 @import url(./blocks/popup/__zoom-image/_closed/popup__zoom-image_closed.css);
@@ -41,7 +43,9 @@
 @import url(./blocks/popup/__title-zoom-image/popup__title-zoom-image.css);
 @import url(./blocks/popup/__title/popup__title.css);
 @import url(./blocks/popup/__title/_section/popup__title_section_delete-confirm.css);
+@import url(./blocks/popup/__title/_section/popup__title_section_registration.css);
 @import url(./blocks/popup/__button-close/popup__button-close.css);
+@import url(./blocks/popup/__button-close/_section/popup__button-close_section_registration.css);
 @import url(./blocks/form/form.css);
 @import url(./blocks/form/__input/form__input.css);
 @import url(./blocks/form/__input/_location/form__input_location_sign.css);
