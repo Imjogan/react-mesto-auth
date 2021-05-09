@@ -7,14 +7,9 @@ export const register = (password, email) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ password, email }),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => console.log(err));
+  }).then((response) => {
+    return response.json();
+  });
 };
 
 export const authorize = (password, email) => {
@@ -32,7 +27,6 @@ export const authorize = (password, email) => {
         return data;
       }
     })
-    .catch((err) => console.log(err));
 };
 
 export const checkToken = (token) => {

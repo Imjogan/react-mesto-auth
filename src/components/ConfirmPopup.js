@@ -5,7 +5,6 @@ function ConfirmPopup({
   onClose,
   onDeleteCard,
   card,
-  isLoading,
   isSubmitting,
 }) {
   const handleSubmit = (evt) => {
@@ -18,7 +17,7 @@ function ConfirmPopup({
     <PopupWithForm
       name="delete-confirm"
       title="Вы уверены?"
-      submitButtonText={isLoading ? 'Удаление...' : 'Да'}
+      submitButtonText={isSubmitting ? 'Удаление...' : 'Да'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

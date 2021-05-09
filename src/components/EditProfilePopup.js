@@ -25,7 +25,6 @@ function EditProfilePopup({
   isOpen,
   onClose,
   onUpdateUser,
-  isLoading,
   isSubmitting,
 }) {
   const [isDisabledDefault, setIsDisabledDefault] = useState(true);
@@ -113,7 +112,7 @@ function EditProfilePopup({
     <PopupWithForm
       name="profile-edit"
       title="Редактировать профиль"
-      submitButtonText={isLoading ? 'Сохранение...' : 'Сохранить'}
+      submitButtonText={isSubmitting ? 'Сохранение...' : 'Сохранить'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

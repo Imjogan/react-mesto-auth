@@ -34,10 +34,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
-  const [isLoadingProfileInfo, setIsLoadingProfileInfo] = useState(false);
-  const [isLoadingCardAdd, setIsLoadingCardAdd] = useState(false);
-  const [isLoadingProfileAvatar, setIsLoadingProfileAvatar] = useState(false);
-  const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
   const [currentDeletionCard, setCurrentDeletionCard] = useState(null);
   const [isSubmittingProfileInfo, setIsSubmittingProfileInfo] = useState(false);
   const [isSubmittingCardAdd, setIsSubmittingCardAdd] = useState(false);
@@ -47,8 +43,11 @@ function App() {
   const [isSubmittingProfileAvatar, setIsSubmittingProfileAvatar] = useState(
     false
   );
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [isMenuClick, setIsMenuClick] = useState(false);
+  const [authState, setAuthState] = useState({
+    loggedIn: false,
+    email: null,
+  });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     handleTokenCheck();
@@ -56,19 +55,19 @@ function App() {
       .getInitialData()
       .then((data) => {
         const [cards, userInfo] = data;
-        setDataLoading(false);
         setCards(cards);
         setCurrentUser(userInfo);
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setDataLoading(false);
       });
   }, []);
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(
-      (likeOnCard) => likeOnCard._id === currentUser._id
-    );
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
     api
       .toggleCardLike(card._id, isLiked)
@@ -91,7 +90,6 @@ function App() {
 
   function handleDeleteConfirm(card) {
     setIsSubmittingDeleteConfirm(true);
-    setIsLoadingConfirm(true);
     api
       .deleteCard(card._id)
       .then(() => {
@@ -104,14 +102,12 @@ function App() {
         console.log(error);
       })
       .finally(() => {
-        setIsLoadingConfirm(false);
         setIsSubmittingDeleteConfirm(false);
       });
   }
 
   const handleAddPlaceSubmit = (newCard) => {
     setIsSubmittingCardAdd(true);
-    setIsLoadingCardAdd(true);
     api
       .createCard(newCard.name, newCard.link)
       .then((res) => {
@@ -122,14 +118,12 @@ function App() {
         console.log(error);
       })
       .finally(() => {
-        setIsLoadingCardAdd(false);
         setIsSubmittingCardAdd(false);
       });
   };
 
   const handleUpdateUser = (userObj) => {
     setIsSubmittingProfileInfo(true);
-    setIsLoadingProfileInfo(true);
     api
       .setUserInfo(userObj.name, userObj.about)
       .then((res) => {
@@ -140,14 +134,12 @@ function App() {
         console.log(error);
       })
       .finally(() => {
-        setIsLoadingProfileInfo(false);
         setIsSubmittingProfileInfo(false);
       });
   };
 
   const handleUpdateAvatar = (avatarObj) => {
     setIsSubmittingProfileAvatar(true);
-    setIsLoadingProfileAvatar(true);
     api
       .updateAvatar(avatarObj.avatar)
       .then((res) => {
@@ -158,7 +150,6 @@ function App() {
         console.log(error);
       })
       .finally(() => {
-        setIsLoadingProfileAvatar(false);
         setIsSubmittingProfileAvatar(false);
       });
   };
@@ -189,58 +180,65 @@ function App() {
   }
 
   const handleTokenCheck = () => {
-    if (localStorage.getItem('token')) {
-      const token = localStorage.getItem('token');
-      auth.checkToken(token).then((res) => {
-        setLoggedIn((prevState) => ({
-          ...prevState,
-          email: res.data.email,
-        }));
-        if (res) {
-          history.push('/main');
-        }
-      });
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth
+        .checkToken(token)
+        .then((res) => {
+          if (res) {
+            setAuthState({
+              loggedIn: true,
+              email: res.data.email,
+            });
+            history.push('/main');
+          }
+        })
+        .catch((res) => console.log(res));
     }
   };
 
   const handleLogin = () => {
     handleTokenCheck();
-    setLoggedIn(true);
+    setAuthState((prevState) => ({
+      ...prevState,
+      loggedIn: true,
+    }));
   };
 
   const onSignOut = () => {
-    setLoggedIn(false);
-    setIsMenuClick(false);
+    setAuthState({
+      loggedIn: false,
+      email: null,
+    });
+    localStorage.removeItem('token');
+    history.push('/sign-in');
+    setIsMobileMenuOpen(false);
   };
 
-  const onMenuClick = () => {
-    setIsMenuClick(!isMenuClick);
+  const onMobileMenuClick = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
     <div
-      className={`page ${isMenuClick && 'page_shift'} ${
-        !loggedIn && 'page_without-login'
+      className={`page ${isMobileMenuOpen && 'page_mobile-menu_opened'} ${
+        !authState.loggedIn && 'page_mobile-menu_disabled'
       }`}
     >
       {dataLoading ? (
         <RenderLoading />
       ) : (
         <CurrentUserContext.Provider value={currentUser}>
-          <BurgerMenu
-            isMenuClick={isMenuClick}
-            onSignOut={onSignOut}
-            email={loggedIn.email}
-          />
+          <BurgerMenu onSignOut={onSignOut} email={authState.email} />
           <Header
-            onMenuClick={onMenuClick}
+            onMobileMenuClick={onMobileMenuClick}
             onSignOut={onSignOut}
-            email={loggedIn.email}
+            email={authState.email}
           />
           <Switch>
             <ProtectedRoute
               path="/main"
-              loggedIn={loggedIn}
+              loggedIn={authState.loggedIn}
               component={Main}
               cards={cards}
               onCardLike={handleCardLike}
@@ -260,19 +258,21 @@ function App() {
               />
             </Route>
             <Route path="/">
-              {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
+              {authState.loggedIn ? (
+                <Redirect to="/main" />
+              ) : (
+                <Redirect to="/sign-in" />
+              )}
             </Route>
           </Switch>
-          {loggedIn && <Footer />}
+          {authState.loggedIn && <Footer />}
           <EditProfilePopup
-            isLoading={isLoadingProfileInfo}
             onUpdateUser={handleUpdateUser}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             isSubmitting={isSubmittingProfileInfo}
           />
           <AddPlacePopup
-            isLoading={isLoadingCardAdd}
             isOpen={isAddPlacePopupOpen}
             onAddPlace={handleAddPlaceSubmit}
             onClose={closeAllPopups}
@@ -283,12 +283,10 @@ function App() {
             card={currentDeletionCard}
             onDeleteCard={handleDeleteConfirm}
             onClose={closeAllPopups}
-            isLoading={isLoadingConfirm}
             isSubmitting={isSubmittingDeleteConfirm}
           />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
           <EditAvatarPopup
-            isLoading={isLoadingProfileAvatar}
             isOpen={isEditAvatarPopupOpen}
             onUpdateAvatar={handleUpdateAvatar}
             onClose={closeAllPopups}

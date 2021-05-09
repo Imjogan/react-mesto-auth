@@ -1,14 +1,4 @@
-import { useHistory } from 'react-router-dom';
-
 function BurgerMenu({ email, onSignOut }) {
-  let history = useHistory();
-
-  const handleOutClick = () => {
-    onSignOut();
-    localStorage.removeItem('token');
-    history.push('/sign-in');
-  };
-
   return (
     <div className="burger-menu">
       <ul className="burger-menu__content">
@@ -17,7 +7,9 @@ function BurgerMenu({ email, onSignOut }) {
         </li>
         <li className="burger-menu__item">
           <button
-            onClick={handleOutClick}
+            onClick={() => {
+              onSignOut();
+            }}
             className="burger__element burger__element_button"
           >
             Выйти

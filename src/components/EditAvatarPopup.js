@@ -5,7 +5,6 @@ function EditAvatarPopup({
   isOpen,
   onClose,
   onUpdateAvatar,
-  isLoading,
   isSubmitting,
 }) {
   const avatarValue = useRef();
@@ -26,7 +25,7 @@ function EditAvatarPopup({
     <PopupWithForm
       name="update-avatar"
       title="Обновить аватар"
-      submitButtonText={isLoading ? 'Сохранение...' : 'Сохранить'}
+      submitButtonText={isSubmitting ? 'Сохранение...' : 'Сохранить'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

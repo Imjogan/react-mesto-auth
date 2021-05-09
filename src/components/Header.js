@@ -1,9 +1,8 @@
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-function Header({ email, onSignOut, onMenuClick }) {
+function Header({ email, onSignOut, onMobileMenuClick }) {
   let location = useLocation();
-  let history = useHistory();
 
   const [isClick, setIsClick] = useState(false);
 
@@ -11,15 +10,9 @@ function Header({ email, onSignOut, onMenuClick }) {
     setIsClick(false);
   }, [location]);
 
-  const handleOutClick = () => {
-    onSignOut();
-    localStorage.removeItem('token');
-    history.push('/sign-in');
-  };
-
-  const onClick = () => {
+  const handleMobileMenuClick = () => {
     setIsClick(!isClick);
-    onMenuClick();
+    onMobileMenuClick();
   };
 
   return (
@@ -38,7 +31,9 @@ function Header({ email, onSignOut, onMenuClick }) {
           <nav className="header__menu">
             <p className="header__menu-element">{email}</p>
             <button
-              onClick={handleOutClick}
+              onClick={() => {
+                onSignOut();
+              }}
               className="header__menu-element header__menu-element_button"
             >
               Выйти
@@ -46,7 +41,7 @@ function Header({ email, onSignOut, onMenuClick }) {
           </nav>
           <nav className="burger">
             <figure
-              onClick={onClick}
+              onClick={handleMobileMenuClick}
               className={`burger__button burger__button_type_cross ${
                 isClick && 'burger__button_active'
               }`}

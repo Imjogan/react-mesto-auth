@@ -1,10 +1,10 @@
 function Footer() {
-  const currentDate = new Date();
+  const currentDate = new Date().getFullYear();
 
   return (
     <footer className="footer">
       <p className="footer__copyright">
-        &copy; {currentDate.getFullYear()}. Mesto-React, Russia
+        &copy; {currentDate}. Mesto-React-Auth, Russia
       </p>
     </footer>
   );

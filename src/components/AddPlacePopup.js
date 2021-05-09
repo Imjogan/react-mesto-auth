@@ -21,7 +21,6 @@ function AddPlacePopup({
   isOpen,
   onClose,
   onAddPlace,
-  isLoading,
   isSubmitting,
 }) {
   const [isDisabledDefault, setIsDisabledDefault] = useState(true);
@@ -102,7 +101,7 @@ function AddPlacePopup({
     <PopupWithForm
       name="card-add"
       title="Новое место"
-      submitButtonText={isLoading ? 'Добавление...' : 'Добавить'}
+      submitButtonText={isSubmitting ? 'Добавление...' : 'Добавить'}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

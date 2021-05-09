@@ -21,11 +21,11 @@
     transition: all 0.4s ease-in-out;
   }
 
-  .page_without-login {
+  .page_mobile-menu_disabled {
     transform: translateY(-121px);
   }
 
-  .page_shift {
+  .page_mobile-menu_opened {
     transform: translateY(0);
   }
 }
