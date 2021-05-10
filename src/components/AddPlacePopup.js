@@ -17,12 +17,7 @@ const validators = {
   },
 };
 
-function AddPlacePopup({
-  isOpen,
-  onClose,
-  onAddPlace,
-  isSubmitting,
-}) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
   const [isDisabledDefault, setIsDisabledDefault] = useState(true);
 
   const [formValues, setFormValues] = useState({
@@ -71,14 +66,8 @@ function AddPlacePopup({
   useEffect(
     function validateInputs() {
       const { cardName, cardLink } = formValues;
-      const cardNameValidationResult = validateField(
-        validators.cardName,
-        cardName
-      );
-      const cardLinkValidationResult = validateField(
-        validators.cardLink,
-        cardLink
-      );
+      const cardNameValidationResult = validateField(validators.cardName, cardName);
+      const cardLinkValidationResult = validateField(validators.cardLink, cardLink);
       setErrors({
         cardName: cardNameValidationResult,
         cardLink: cardLinkValidationResult,
@@ -94,8 +83,7 @@ function AddPlacePopup({
 
   const isAnyParamsCardNameValid =
     errors.cardName.required || errors.cardName.minLength;
-  const isAnyParamsCardLinkValid =
-    errors.cardLink.required || errors.cardLink.url;
+  const isAnyParamsCardLinkValid = errors.cardLink.required || errors.cardLink.url;
 
   return (
     <PopupWithForm
@@ -115,9 +103,7 @@ function AddPlacePopup({
             type="text"
             placeholder="Название"
             className={`form__input ${
-              isDisabledDefault
-                ? ''
-                : isСardNameInvalid && 'form__input_type_error'
+              isDisabledDefault ? '' : isСardNameInvalid && 'form__input_type_error'
             }`}
             name="cardName"
             required
@@ -129,9 +115,7 @@ function AddPlacePopup({
           />
           <span
             className={`form__error ${
-              isDisabledDefault
-                ? ''
-                : isСardNameInvalid && 'form__error_visible'
+              isDisabledDefault ? '' : isСardNameInvalid && 'form__error_visible'
             }`}
           >
             {isAnyParamsCardNameValid
@@ -148,9 +132,7 @@ function AddPlacePopup({
             type="url"
             placeholder="Ссылка на картинку"
             className={`form__input ${
-              isDisabledDefault
-                ? ''
-                : isСardLinkInvalid && 'form__input_type_error'
+              isDisabledDefault ? '' : isСardLinkInvalid && 'form__input_type_error'
             }`}
             name="cardLink"
             required
@@ -160,9 +142,7 @@ function AddPlacePopup({
           />
           <span
             className={`form__error ${
-              isDisabledDefault
-                ? ''
-                : isСardLinkInvalid && 'form__error_visible'
+              isDisabledDefault ? '' : isСardLinkInvalid && 'form__error_visible'
             }`}
           >
             {isAnyParamsCardLinkValid

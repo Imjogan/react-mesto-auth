@@ -22,9 +22,7 @@ import InfoTooltip from './InfoTooltip';
 function App() {
   let history = useHistory();
 
-  const [isSuccessfulRegistration, setIsSuccessfulRegistration] = useState(
-    false
-  );
+  const [isSuccessfulRegistration, setIsSuccessfulRegistration] = useState(false);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -37,12 +35,8 @@ function App() {
   const [currentDeletionCard, setCurrentDeletionCard] = useState(null);
   const [isSubmittingProfileInfo, setIsSubmittingProfileInfo] = useState(false);
   const [isSubmittingCardAdd, setIsSubmittingCardAdd] = useState(false);
-  const [isSubmittingDeleteConfirm, setIsSubmittingDeleteConfirm] = useState(
-    false
-  );
-  const [isSubmittingProfileAvatar, setIsSubmittingProfileAvatar] = useState(
-    false
-  );
+  const [isSubmittingDeleteConfirm, setIsSubmittingDeleteConfirm] = useState(false);
+  const [isSubmittingProfileAvatar, setIsSubmittingProfileAvatar] = useState(false);
   const [authState, setAuthState] = useState({
     loggedIn: false,
     email: null,
@@ -190,7 +184,7 @@ function App() {
               loggedIn: true,
               email: res.data.email,
             });
-            history.push('/main');
+            history.push('/');
           }
         })
         .catch((res) => console.log(res));
@@ -237,7 +231,7 @@ function App() {
           />
           <Switch>
             <ProtectedRoute
-              path="/main"
+              exact path="/"
               loggedIn={authState.loggedIn}
               component={Main}
               cards={cards}
@@ -259,7 +253,7 @@ function App() {
             </Route>
             <Route path="/">
               {authState.loggedIn ? (
-                <Redirect to="/main" />
+                <Redirect to="/" />
               ) : (
                 <Redirect to="/sign-in" />
               )}

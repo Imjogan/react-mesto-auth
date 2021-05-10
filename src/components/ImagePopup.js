@@ -4,11 +4,7 @@ function ImagePopup({ card, onClose }) {
   return (
     <section className={`popup ${card && 'popup_opened'}`}>
       <div className="popup__zoom-image">
-        <button
-          onClick={onClose}
-          type="button"
-          className="popup__button-close"
-        />
+        <button onClick={onClose} type="button" className="popup__button-close" />
         <Image
           src={card && card.link}
           alt={card && card.name}

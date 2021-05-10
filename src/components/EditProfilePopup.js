@@ -21,12 +21,7 @@ const validators = {
   },
 };
 
-function EditProfilePopup({
-  isOpen,
-  onClose,
-  onUpdateUser,
-  isSubmitting,
-}) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, isSubmitting }) {
   const [isDisabledDefault, setIsDisabledDefault] = useState(true);
   const currentUser = useContext(CurrentUserContext);
 
@@ -80,10 +75,7 @@ function EditProfilePopup({
     function validateInputs() {
       const { userName, description } = formValues;
 
-      const userNameValidationRusult = validateField(
-        validators.userName,
-        userName
-      );
+      const userNameValidationRusult = validateField(validators.userName, userName);
 
       const descriptionValidationRusult = validateField(
         validators.description,
@@ -136,9 +128,7 @@ function EditProfilePopup({
             onChange={handleInputChange}
           />
           <span
-            className={`form__error ${
-              isUserNameInvalid && 'form__error_visible'
-            }`}
+            className={`form__error ${isUserNameInvalid && 'form__error_visible'}`}
           >
             {isAnyParamsUserNameValid
               ? errors.userName.required

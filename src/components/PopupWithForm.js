@@ -14,18 +14,9 @@ function PopupWithForm({
   return (
     <section className={`popup ${isOpen && 'popup_opened'}`}>
       <div className="popup__container">
-        <button
-          onClick={onClose}
-          type="button"
-          className="popup__button-close"
-        />
+        <button onClick={onClose} type="button" className="popup__button-close" />
         <h2 className="popup__title">{title}</h2>
-        <form
-          onSubmit={onSubmit}
-          noValidate
-          name={`form-${name}`}
-          className="form"
-        >
+        <form onSubmit={onSubmit} noValidate name={`form-${name}`} className="form">
           {children}
           <button
             disabled={isDisabled}

@@ -26,7 +26,7 @@ export const authorize = (password, email) => {
         localStorage.setItem('token', data.token);
         return data;
       }
-    })
+    });
 };
 
 export const checkToken = (token) => {

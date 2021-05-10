@@ -61,7 +61,7 @@ function Login({ handleLogin }) {
         if (data.token) {
           localStorage.setItem('token', data.token);
           handleLogin();
-          history.push('/main');
+          history.push('/');
         }
       })
       .catch((err) => console.log(err))
@@ -83,10 +83,7 @@ function Login({ handleLogin }) {
   useEffect(
     function validateInputs() {
       const { password, email } = formValues;
-      const passwordValidationResult = validateField(
-        validators.password,
-        password
-      );
+      const passwordValidationResult = validateField(validators.password, password);
       const emailValidationResult = validateField(validators.email, email);
       setErrors({
         password: passwordValidationResult,
@@ -118,9 +115,7 @@ function Login({ handleLogin }) {
                 type="email"
                 placeholder="Email"
                 className={`form__input form__input_location_sign ${
-                  isDisabledDefault
-                    ? ''
-                    : isEmailInvalid && 'form__input_type_error'
+                  isDisabledDefault ? '' : isEmailInvalid && 'form__input_type_error'
                 }`}
                 name="email"
                 required
@@ -130,9 +125,7 @@ function Login({ handleLogin }) {
               />
               <span
                 className={`form__error ${
-                  isDisabledDefault
-                    ? ''
-                    : isEmailInvalid && 'form__error_visible'
+                  isDisabledDefault ? '' : isEmailInvalid && 'form__error_visible'
                 }`}
               >
                 {isAnyParamsEmailValid
@@ -160,9 +153,7 @@ function Login({ handleLogin }) {
               />
               <span
                 className={`form__error ${
-                  isDisabledDefault
-                    ? ''
-                    : isPasswordInvalid && 'form__error_visible'
+                  isDisabledDefault ? '' : isPasswordInvalid && 'form__error_visible'
                 }`}
               >
                 {isAnyParamsPasswordValid

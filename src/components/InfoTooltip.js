@@ -24,11 +24,7 @@ function InfoTooltip({
         />
         <img
           className="popup__registration-image"
-          src={
-            isSuccessfulRegistration
-              ? successfulRegistration
-              : registrationError
-          }
+          src={isSuccessfulRegistration ? successfulRegistration : registrationError}
           alt="Вы успешно зарегистрированы!"
         />
         <h2 className="popup__title popup__title_section_registration">

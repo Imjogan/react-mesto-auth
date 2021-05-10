@@ -83,10 +83,7 @@ function Register({ onShowPopup, onRegistrationResolve }) {
   useEffect(
     function validateInputs() {
       const { password, email } = formValues;
-      const passwordValidationResult = validateField(
-        validators.password,
-        password
-      );
+      const passwordValidationResult = validateField(validators.password, password);
       const emailValidationResult = validateField(validators.email, email);
       setErrors({
         password: passwordValidationResult,
@@ -105,8 +102,7 @@ function Register({ onShowPopup, onRegistrationResolve }) {
     errors.password.required || errors.password.minLength;
   const isAnyParamsEmailValid = errors.email.required || errors.email.email;
 
-  const isDisabled =
-    isDisabledDefault || isSubmitDisabled || isSubmittingRegister;
+  const isDisabled = isDisabledDefault || isSubmitDisabled || isSubmittingRegister;
 
   return (
     <section className="login">
@@ -119,9 +115,7 @@ function Register({ onShowPopup, onRegistrationResolve }) {
                 type="email"
                 placeholder="Email"
                 className={`form__input form__input_location_sign ${
-                  isDisabledDefault
-                    ? ''
-                    : isEmailInvalid && 'form__input_type_error'
+                  isDisabledDefault ? '' : isEmailInvalid && 'form__input_type_error'
                 }`}
                 name="email"
                 required
@@ -131,9 +125,7 @@ function Register({ onShowPopup, onRegistrationResolve }) {
               />
               <span
                 className={`form__error ${
-                  isDisabledDefault
-                    ? ''
-                    : isEmailInvalid && 'form__error_visible'
+                  isDisabledDefault ? '' : isEmailInvalid && 'form__error_visible'
                 }`}
               >
                 {isAnyParamsEmailValid
@@ -161,9 +153,7 @@ function Register({ onShowPopup, onRegistrationResolve }) {
               />
               <span
                 className={`form__error ${
-                  isDisabledDefault
-                    ? ''
-                    : isPasswordInvalid && 'form__error_visible'
+                  isDisabledDefault ? '' : isPasswordInvalid && 'form__error_visible'
                 }`}
               >
                 {isAnyParamsPasswordValid

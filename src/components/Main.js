@@ -39,11 +39,7 @@ function Main({
             <p className="profile__status">{currentUser.about}</p>
           </div>
         </div>
-        <button
-          onClick={onAddPlace}
-          type="button"
-          className="profile__button-add"
-        />
+        <button onClick={onAddPlace} type="button" className="profile__button-add" />
       </section>
       <section>
         <ul className="elements">

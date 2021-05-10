@@ -1,12 +1,6 @@
 import PopupWithForm from './PopupWithForm';
 
-function ConfirmPopup({
-  isOpen,
-  onClose,
-  onDeleteCard,
-  card,
-  isSubmitting,
-}) {
+function ConfirmPopup({ isOpen, onClose, onDeleteCard, card, isSubmitting }) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
