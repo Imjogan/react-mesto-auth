@@ -4,7 +4,7 @@ function Footer() {
   return (
     <footer className="footer">
       <p className="footer__copyright">
-        &copy; {currentDate}. Mesto-React-Auth, Russia
+        &copy; {currentDate}. React-Mesto-Auth, Russia
       </p>
     </footer>
   );

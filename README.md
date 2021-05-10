@@ -51,4 +51,4 @@
 
 ## Посмотреть на gh-pages
 
-[https://imjogan.github.io/mesto-react-auth/](https://imjogan.github.io/mesto-react-auth/)
+[https://imjogan.github.io/react-mesto-auth/](https://imjogan.github.io/react-mesto-auth/)
