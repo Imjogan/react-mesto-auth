@@ -4,14 +4,14 @@ import { useState, useEffect } from 'react';
 function Header({ email, onSignOut, onMobileMenuClick }) {
   let location = useLocation();
 
-  const [isClick, setIsClick] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    setIsClick(false);
+    setIsMenuOpen(false);
   }, [location]);
 
   const handleMobileMenuClick = () => {
-    setIsClick(!isClick);
+    setIsMenuOpen(!isMenuOpen);
     onMobileMenuClick();
   };
 
@@ -34,9 +34,7 @@ function Header({ email, onSignOut, onMobileMenuClick }) {
             <nav className="header__menu">
               <p className="header__menu-element">{email}</p>
               <button
-                onClick={() => {
-                  onSignOut();
-                }}
+                onClick={onSignOut}
                 className="header__menu-element header__menu-element_button"
               >
                 Выйти
@@ -46,7 +44,7 @@ function Header({ email, onSignOut, onMobileMenuClick }) {
               <figure
                 onClick={handleMobileMenuClick}
                 className={`burger__button burger__button_type_cross ${
-                  isClick && 'burger__button_active'
+                  isMenuOpen && 'burger__button_active'
                 }`}
               >
                 <span className="burger__contain" />

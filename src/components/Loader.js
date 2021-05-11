@@ -1,4 +1,4 @@
-function RenderLoading() {
+function Loader() {
   return (
     <div className="loader-ring">
       <div className="loader-ring__main">
@@ -11,4 +11,4 @@ function RenderLoading() {
   );
 }
 
-export default RenderLoading;
+export default Loader;

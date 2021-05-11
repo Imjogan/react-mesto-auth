@@ -11,7 +11,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import RenderLoading from './RenderLoading';
+import Loader from './Loader';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
@@ -31,7 +31,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [dataLoading, setDataLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(false);
   const [currentDeletionCard, setCurrentDeletionCard] = useState(null);
   const [isSubmittingProfileInfo, setIsSubmittingProfileInfo] = useState(false);
   const [isSubmittingCardAdd, setIsSubmittingCardAdd] = useState(false);
@@ -45,6 +45,7 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
+    setDataLoading(true);
     api
       .getInitialData()
       .then((data) => {
@@ -169,8 +170,8 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsConfirmPopupOpen(false);
-    setSelectedCard(null);
     setIsInfoTooltipPopupOpen(false);
+    setSelectedCard(null);
   }
 
   const handleTokenCheck = () => {
@@ -220,7 +221,7 @@ function App() {
       }`}
     >
       {dataLoading ? (
-        <RenderLoading />
+        <Loader />
       ) : (
         <CurrentUserContext.Provider value={currentUser}>
           <BurgerMenu onSignOut={onSignOut} email={authState.email} />

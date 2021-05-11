@@ -7,9 +7,7 @@ function BurgerMenu({ email, onSignOut }) {
         </li>
         <li className="burger-menu__item">
           <button
-            onClick={() => {
-              onSignOut();
-            }}
+            onClick={onSignOut}
             className="burger__element burger__element_button"
           >
             Выйти

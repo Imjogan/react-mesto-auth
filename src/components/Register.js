@@ -137,7 +137,7 @@ function Register({ onShowPopup, onRegistrationResolve }) {
             </label>
             <label className="label">
               <input
-                type="text"
+                type="password"
                 placeholder="Пароль"
                 className={`form__input form__input_location_sign ${
                   isDisabledDefault
