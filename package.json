@@ -19,7 +19,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d build && scp -r ./build/* mjogan@84.252.137.157:/home/mjogan/mesto-frontend"
   },
   "eslintConfig": {
     "extends": [
